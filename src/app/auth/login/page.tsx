@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -11,7 +12,6 @@ export default function page() {
       <h1 className="text-3xl text-center">Login</h1>
 
       <form action="">
-
         <div className="mb-4">
           <Label className="ms-2 mb-2">Email</Label>
           <Input type="emmil" id="email" placeholder="Email" />
@@ -22,8 +22,18 @@ export default function page() {
           <Input type="password" id="password" placeholder="Kata Sandi" />
         </div>
 
-        <Button type="submit" className="w-full">Submit</Button>
+        <Button type="submit" className="w-full">
+          Submit
+        </Button>
       </form>
+
+      <p className="text-center">
+        Silahkan{" "}
+        <Link href="/auth/register" className="text-blue-700 underline">
+          daftar
+        </Link>{" "}
+        jika belum punya akun
+      </p>
     </Card>
-  )
+  );
 }
