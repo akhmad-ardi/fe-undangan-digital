@@ -23,7 +23,7 @@ const items = [
   },
   {
     title: "Buat Undangan",
-    url: "#",
+    url: "/create-invitation",
     icon: Inbox,
   },
 ];
@@ -33,8 +33,8 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup className="h-full justify-between">
-          <SidebarGroupLabel className="justify-center text-3xl mt-10">
-            Evowish
+          <SidebarGroupLabel className="justify-center text-3xl mt-10 text-center">
+            Undangan Digital
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="gap-3">
