@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { motion } from "motion/react";
 
@@ -8,7 +10,7 @@ export default function ReligiousInvitation() {
   return (
     <div
       className="relative flex min-h-screen items-center justify-center bg-cover bg-fixed bg-center p-6"
-      style={{ backgroundImage: "url('/images/religious-bg.jpg')" }}
+      style={{ backgroundImage: "url('/religious_bg/religious_1.jpg')" }}
     >
       {/* Overlay */}
       <div className="absolute inset-0 z-0 bg-black/40" />

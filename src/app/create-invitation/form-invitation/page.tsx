@@ -23,32 +23,83 @@ export default function page() {
 
       <form action="" className="mx-auto mt-10 mb-3 w-[80%] lg:w-[40%]">
         <div className="mb-3">
-          <Label htmlFor="title" className="mb-2">
-            Judul Acara
-          </Label>
-          <Input type="text" id="title" placeholder="Judul Acara" />
+          <Button asChild>
+            <Link href="">Pratinjau Undangan</Link>
+          </Button>
         </div>
 
         <div className="mb-3">
-          <DatePicker label="Tanggal" />
+          <Label htmlFor="title" className="mb-2">
+            Judul Acara
+          </Label>
+          <div className="flex w-full max-w-sm items-center gap-2">
+            <Input
+              type="text"
+              id="title"
+              className="basis-4/5"
+              placeholder="Judul Acara"
+            />
+            <Input type="color" id="color_title" className="basis-1/5" />
+          </div>
+        </div>
+
+        <div className="mb-3">
+          <Label htmlFor="date" className="mb-2">
+            Tanggal
+          </Label>
+          <div className="flex w-full max-w-sm items-center gap-2">
+            <Input
+              type="date"
+              id="date"
+              className="basis-4/5"
+              placeholder="Judul Acara"
+            />
+            <Input type="color" id="color_date" className="basis-1/5" />
+          </div>
+        </div>
+
+        <div className="mb-3">
+          <Label htmlFor="time" className="mb-2">
+            Waktu
+          </Label>
+          <div className="flex w-full max-w-sm items-center gap-2">
+            <Input
+              type="time"
+              id="time"
+              className="basis-4/5"
+              placeholder="Lokasi"
+            />
+            <Input type="color" id="color_time" className="basis-1/5" />
+          </div>
         </div>
 
         <div className="mb-3">
           <Label htmlFor="location" className="mb-2">
             Lokasi
           </Label>
-          <Input type="text" id="location" placeholder="Lokasi" />
+          <div className="flex w-full max-w-sm items-center gap-2">
+            <Input
+              type="text"
+              id="location"
+              className="basis-4/5"
+              placeholder="Lokasi"
+            />
+            <Input type="color" id="color_location" className="basis-1/5" />
+          </div>
         </div>
 
         <div className="mb-3">
           <Label htmlFor="description" className="mb-2">
             Deskripsi Acara
           </Label>
-          <Textarea
-            className="min-h-24"
-            id="description"
-            placeholder="Deskripsi Acara"
-          />
+          <div className="flex w-full max-w-sm items-center gap-2">
+            <Textarea
+              id="description"
+              className="basis-4/5"
+              placeholder="Deskripsi Acara"
+            />
+            <Input type="color" id="color_description" className="basis-1/5" />
+          </div>
         </div>
 
         <div className="mb-3 flex flex-col gap-1">
