@@ -2,6 +2,8 @@ import React from "react";
 
 import WeddingInvitation from "./_components/wedding_template";
 import BirthdayInvitation from "./_components/birthday_template";
+import MeetingInvitation from "./_components/meeting_template";
+import ReligiousInvitation from "./_components/religious_template";
 
 type Props = {
   params: Promise<{
@@ -14,7 +16,7 @@ export default async function page({ params }: Props) {
 
   return (
     <>
-      <BirthdayInvitation />
+      <ReligiousInvitation />
     </>
   );
 }
