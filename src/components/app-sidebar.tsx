@@ -12,6 +12,16 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "./ui/sidebar";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogDescription,
+  DialogClose,
+} from "./ui/dialog";
 import { Button } from "./ui/button";
 
 // Menu items.
@@ -33,7 +43,7 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup className="h-full justify-between">
-          <SidebarGroupLabel className="justify-center text-3xl mt-10 text-center">
+          <SidebarGroupLabel className="mt-10 justify-center text-center text-3xl">
             Undangan Digital
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -56,15 +66,37 @@ export function AppSidebar() {
           <SidebarGroupContent className="mb-5">
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Button
-                    variant="destructive"
-                    className="cursor-pointer hover:!bg-destructive/90 hover:!text-white"
-                  >
-                    <Power />
-                    Logout
-                  </Button>
-                </SidebarMenuButton>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <SidebarMenuButton asChild>
+                      <Button
+                        variant="destructive"
+                        className="hover:!bg-destructive/90 cursor-pointer hover:!text-white"
+                      >
+                        <Power />
+                        Logout
+                      </Button>
+                    </SidebarMenuButton>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Logout</DialogTitle>
+                    </DialogHeader>
+                    <DialogDescription>
+                      Apakah kamu ingin logout?
+                    </DialogDescription>
+                    <DialogFooter>
+                      <form action="" className="flex gap-1">
+                        <DialogClose asChild>
+                          <Button type="button" variant="destructive">
+                            Tidak
+                          </Button>
+                        </DialogClose>
+                        <Button type="submit">Ya</Button>
+                      </form>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
