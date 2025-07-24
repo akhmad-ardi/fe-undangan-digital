@@ -20,18 +20,21 @@ export default function Home() {
       title_event: "Test 0",
       date: "Senin, 29-01-2024",
       location: "Makassar",
+      time: "03:10 AM",
       status: true,
     },
     {
       title_event: "Test 1",
       date: "Rabu, 29-02-2024",
       location: "Makassar",
+      time: "05:10 AM",
       status: false,
     },
     {
       title_event: "Test 2",
       date: "Sabtu, 30-05-2024",
       location: "Makassar",
+      time: "12:00 AM",
       status: true,
     },
   ];
@@ -41,18 +44,19 @@ export default function Home() {
       <SidebarProvider>
         <AppSidebar />
 
-        <main className="px-5 lg:px-10 py-5 w-full">
+        <main className="w-full px-5 py-5 lg:px-10">
           <SidebarTrigger className="[&_svg:not([class*='size-'])]:size-7" />
 
-          <h1 className="text-center text-3xl mt-16 mb-10">Daftar Undangan</h1>
+          <h1 className="mt-16 mb-10 text-center text-3xl">Daftar Undangan</h1>
 
           <div className="w-full overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>Judul Acara</TableHead>
-                  <TableHead className="w-[150px]">Lokasi</TableHead>
+                  <TableHead className="w-[180px]">Lokasi</TableHead>
                   <TableHead className="w-[100px]">Tanggal</TableHead>
+                  <TableHead className="w-[100px]">Waktu</TableHead>
                   <TableHead className="w-[150px] text-center">
                     Status
                   </TableHead>
@@ -65,6 +69,7 @@ export default function Home() {
                     <TableCell>{invitaion.title_event}</TableCell>
                     <TableCell>{invitaion.location}</TableCell>
                     <TableCell>{invitaion.date}</TableCell>
+                    <TableCell>{invitaion.time}</TableCell>
                     <TableCell
                       className={`text-center ${
                         invitaion.status ? "text-green-600" : "text-red-600"

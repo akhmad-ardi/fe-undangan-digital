@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 
 // components
 import { Slider } from "@/components/ui/slider";
@@ -12,49 +11,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogClose,
-  DialogFooter,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import FormChooseTemplate from "./_components/form-choose-template";
 import { Button } from "@/components/ui/button";
 
-export default function page() {
-  const TEMPLATES = [
-    {
-      name: "Undangan Pernikahan 1",
-      image: "wedding_template_1.png",
-    },
-    {
-      name: "Undangan Pernikahan 2",
-      image: "wedding_template_2.png",
-    },
-    {
-      name: "Undangan Rapat 1",
-      image: "meeting_template_1.png",
-    },
-    {
-      name: "Undangan Rapat 2",
-      image: "meeting_template_2.png",
-    },
-    {
-      name: "Undangan Keagamaan 1",
-      image: "religious_template_1.png",
-    },
-    {
-      name: "Undangan Keagamaan 2",
-      image: "religious_template_2.png",
-    },
-    {
-      name: "Undangan Ulang Tahun 1",
-      image: "birthday_template_1.png",
-    },
-    {
-      name: "Undangan Ulang Tahun 2",
-      image: "birthday_template_2.png",
-    },
-  ];
+import { TEMPLATES } from "@/lib/constant";
 
+export default function page() {
   return (
     <>
       <h1 className="my-5 text-center text-3xl">Buat Undangan</h1>
@@ -97,23 +60,12 @@ export default function page() {
                     dibutuhkan.
                   </DialogDescription>
 
-                  <form action="">
-                    <div className="mb-5">
-                      <Label htmlFor="background_invitation" className="mb-2">
-                        Upload Latar Belakang
-                      </Label>
-                      <Input type="file" id="background_invitation" />
-                    </div>
-
-                    <div className="flex justify-end gap-2">
-                      <DialogClose asChild>
-                        <Button type="button" variant="destructive">
-                          Cancel
-                        </Button>
-                      </DialogClose>
-                      <Button type="submit">Isi Formulir Undangan</Button>
-                    </div>
-                  </form>
+                  <FormChooseTemplate
+                    id_template={template.id_template}
+                    primary_color={template.primary_color}
+                    secondary_color={template.secondary_color}
+                    default_background_image={template.default_background_image}
+                  />
                 </DialogContent>
               </Dialog>
             </CardFooter>

@@ -6,11 +6,31 @@ import { motion } from "motion/react";
 // components
 import { Card, CardContent } from "@/components/ui/card";
 
-export default function BirthdayInvitation() {
+type Props = {
+  title: string;
+  location: string;
+  date: string;
+  time: string;
+  description: string;
+  background_image: string;
+  primary_color: string;
+  secondary_color: string;
+};
+
+export default function BirthdayInvitation({
+  title,
+  location,
+  date,
+  time,
+  description,
+  background_image,
+  primary_color,
+  secondary_color,
+}: Props) {
   return (
     <div
       className="relative flex min-h-screen flex-col items-center justify-center bg-cover bg-fixed bg-center p-6"
-      style={{ backgroundImage: "url('/birthday_bg/birthday_2.jpg')" }}
+      style={{ backgroundImage: `url('${background_image}')` }}
     >
       {/* Overlay */}
       <div className="absolute inset-0 z-0 bg-blue-800/40" />
@@ -19,12 +39,16 @@ export default function BirthdayInvitation() {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1 }}
-        className="relative z-10 w-full max-w-md"
+        className="relative z-10 w-full max-w-lg"
       >
-        <Card className="rounded-2xl border-blue-200 bg-white/80 shadow-lg backdrop-blur">
+        <Card
+          className="rounded-2xl bg-white/80 shadow-lg backdrop-blur"
+          style={{ borderColor: primary_color }}
+        >
           <CardContent className="p-8 text-center">
             <motion.h1
-              className="mb-4 text-4xl font-bold text-blue-600"
+              className="mb-4 text-4xl font-bold"
+              style={{ color: primary_color }}
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -33,26 +57,48 @@ export default function BirthdayInvitation() {
             </motion.h1>
 
             <motion.p
-              className="mb-6 text-lg text-gray-700"
+              className="mb-6 text-lg"
+              style={{ color: secondary_color }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
             >
-              Hai teman! Yuk datang dan rayakan ulang tahunku bersama!
+              {description}
             </motion.p>
 
             <motion.div
-              className="mb-6"
+              className="mb-5"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.9 }}
             >
-              <h2 className="text-2xl font-semibold text-blue-500">
-                Raihan Alfarizi
+              <h2
+                className="mb-3 text-2xl font-semibold"
+                style={{ color: primary_color }}
+              >
+                {title}
               </h2>
-              <p className="mt-2 text-gray-600">Minggu, 1 September 2025</p>
-              <p className="text-gray-600">Pukul 15.00 WITA</p>
-              <p className="text-gray-600">Funland Kids Cafe, Makassar</p>
+
+              <p className="font-semibold" style={{ color: primary_color }}>
+                Hari / Tanggal:
+              </p>
+              <p className="mb-2" style={{ color: secondary_color }}>
+                {date}
+              </p>
+
+              <p className="font-semibold" style={{ color: primary_color }}>
+                Waktu
+              </p>
+              <p className="mb-2" style={{ color: secondary_color }}>
+                Pukul {time}
+              </p>
+
+              <p className="font-semibold" style={{ color: primary_color }}>
+                Lokasi
+              </p>
+              <p className="mb-2" style={{ color: secondary_color }}>
+                {location}
+              </p>
             </motion.div>
           </CardContent>
         </Card>

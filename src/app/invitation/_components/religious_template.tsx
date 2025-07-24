@@ -6,11 +6,31 @@ import { motion } from "motion/react";
 // components
 import { Card, CardContent } from "@/components/ui/card";
 
-export default function ReligiousInvitation() {
+type Props = {
+  title: string;
+  location: string;
+  date: string;
+  time: string;
+  description: string;
+  background_image: string;
+  primary_color: string;
+  secondary_color: string;
+};
+
+export default function ReligiousInvitation({
+  title,
+  location,
+  date,
+  time,
+  description,
+  background_image,
+  primary_color,
+  secondary_color,
+}: Props) {
   return (
     <div
       className="relative flex min-h-screen items-center justify-center bg-cover bg-fixed bg-center p-6"
-      style={{ backgroundImage: "url('/religious_bg/religious_1.jpg')" }}
+      style={{ backgroundImage: `url('${background_image}')` }}
     >
       {/* Overlay */}
       <div className="absolute inset-0 z-0 bg-black/40" />
@@ -21,39 +41,58 @@ export default function ReligiousInvitation() {
         transition={{ duration: 1 }}
         className="relative z-10 w-full max-w-xl"
       >
-        <Card className="rounded-2xl border-green-200 bg-white/80 shadow-xl backdrop-blur">
+        <Card
+          className="rounded-2xl bg-white/80 shadow-xl backdrop-blur"
+          style={{ borderColor: primary_color }}
+        >
           <CardContent className="p-8 text-center">
             <motion.h1
-              className="mb-4 text-3xl font-bold text-green-700"
+              className="text-[${primary_color}] mb-4 text-3xl font-bold"
+              style={{ color: primary_color }}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              Undangan Pengajian
+              {title}
             </motion.h1>
 
             <motion.p
-              className="mb-6 text-base text-gray-800"
+              className="text-[${secondary_color}] mb-6 text-base"
+              style={{ color: secondary_color }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
             >
-              Dengan hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir
-              dalam acara pengajian yang akan diselenggarakan pada:
+              {description}
             </motion.p>
 
             <motion.div
-              className="mb-6 text-gray-700"
+              className="text-[${secondary_color}] mb-6"
+              style={{ color: secondary_color }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 }}
             >
-              <p className="font-semibold text-green-600">Hari / Tanggal:</p>
-              <p>Jumat, 30 Agustus 2025</p>
-              <p className="mt-2 font-semibold text-green-600">Waktu:</p>
-              <p>19.00 WITA - Selesai</p>
-              <p className="mt-2 font-semibold text-green-600">Tempat:</p>
-              <p>Masjid Al-Ikhlas, Jl. Sejahtera No. 10, Makassar</p>
+              <p className="font-semibold" style={{ color: primary_color }}>
+                Hari / Tanggal:
+              </p>
+              <p>{date}</p>
+
+              <p
+                className="mt-2 font-semibold"
+                style={{ color: primary_color }}
+              >
+                Waktu:
+              </p>
+              <p>{time}</p>
+
+              <p
+                className="mt-2 font-semibold"
+                style={{ color: primary_color }}
+              >
+                Tempat:
+              </p>
+              <p>{location}</p>
             </motion.div>
           </CardContent>
         </Card>
