@@ -1,6 +1,13 @@
 import React from "react";
 import Link from "next/link";
-import { MailOpen } from "lucide-react";
+import {
+  MailOpen,
+  CirclePlus,
+  EllipsisVertical,
+  Share2,
+  Copy,
+  Plus,
+} from "lucide-react";
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
@@ -12,32 +19,40 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+  DialogHeader,
+  DialogDescription,
+  DialogClose,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
-export default function Home() {
-  const invitations = [
-    {
-      title_event: "Test 0",
-      date: "Senin, 29-01-2024",
-      location: "Makassar",
-      time: "03:10 AM",
-      status: true,
-    },
-    {
-      title_event: "Test 1",
-      date: "Rabu, 29-02-2024",
-      location: "Makassar",
-      time: "05:10 AM",
-      status: false,
-    },
-    {
-      title_event: "Test 2",
-      date: "Sabtu, 30-05-2024",
-      location: "Makassar",
-      time: "12:00 AM",
-      status: true,
-    },
-  ];
+import { Auth } from "@/services/auth";
+import { GetInvitations } from "@/services/api";
+import { redirect } from "next/navigation";
+import FormShareSocialMedia from "./_components/form-share-social-media";
+import FormGenerateLink from "./_components/form-generate-link";
+import CopyLink from "./_components/copy-link";
+
+export default async function Home() {
+  const auth = await Auth();
+  if (!auth.is_auth) {
+    return redirect("/auth/login");
+  }
+
+  const { invitations } = await GetInvitations(auth.token);
+
+  // console.log(invitations);
 
   return (
     <>
@@ -47,7 +62,15 @@ export default function Home() {
         <main className="w-full px-5 py-5 lg:px-10">
           <SidebarTrigger className="[&_svg:not([class*='size-'])]:size-7" />
 
-          <h1 className="mt-16 mb-10 text-center text-3xl">Daftar Undangan</h1>
+          <h1 className="mt-16 mb-7 text-center text-3xl">Daftar Undangan</h1>
+
+          <div className="mb-3">
+            <Button asChild>
+              <Link href="create-invitation">
+                <Plus /> Buat Undangan
+              </Link>
+            </Button>
+          </div>
 
           <div className="w-full overflow-x-auto">
             <Table>
@@ -64,29 +87,113 @@ export default function Home() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {invitations.map((invitaion, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{invitaion.title_event}</TableCell>
-                    <TableCell>{invitaion.location}</TableCell>
-                    <TableCell>{invitaion.date}</TableCell>
-                    <TableCell>{invitaion.time}</TableCell>
-                    <TableCell
-                      className={`text-center ${
-                        invitaion.status ? "text-green-600" : "text-red-600"
-                      }`}
-                    >
-                      {invitaion.status ? "Aktif" : "Tidak Aktif"}
-                    </TableCell>
-                    <TableCell>
-                      <Button asChild>
-                        <Link href="/">
-                          <MailOpen />
-                          Lihat
-                        </Link>
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {Array.isArray(invitations) &&
+                  invitations.map((invitation, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{invitation.title}</TableCell>
+                      <TableCell>{invitation.location}</TableCell>
+                      <TableCell>
+                        {new Date(invitation.date).toISOString().split("T")[0]}
+                      </TableCell>
+                      <TableCell>
+                        {new Date(invitation.time)
+                          .toISOString()
+                          .split("T")[1]
+                          .slice(0, 8)}
+                      </TableCell>
+                      <TableCell
+                        className={`text-center ${
+                          invitation.InvitationLink.is_active
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }`}
+                      >
+                        {invitation.InvitationLink.is_active
+                          ? "Aktif"
+                          : "Tidak Aktif"}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button>
+                              <EllipsisVertical />
+                            </Button>
+                          </DropdownMenuTrigger>
+
+                          <DropdownMenuContent>
+                            {/* Lihat Undangan */}
+                            <DropdownMenuItem asChild>
+                              <Link
+                                href={invitation.InvitationLink.link}
+                                target="_blank"
+                              >
+                                <MailOpen />
+                                Lihat Undangan
+                              </Link>
+                            </DropdownMenuItem>
+
+                            {/* Generate Link */}
+                            {invitation.InvitationLink.link ? (
+                              <CopyLink link={invitation.InvitationLink.link} />
+                            ) : (
+                              <DropdownMenuItem asChild>
+                                <Dialog>
+                                  <DialogTrigger className="focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+                                    <CirclePlus />
+                                    Generate Link
+                                  </DialogTrigger>
+
+                                  <DialogContent>
+                                    <DialogHeader>
+                                      <DialogTitle>Generate Link</DialogTitle>
+                                      <DialogDescription>
+                                        Anda akan men-generate link!
+                                      </DialogDescription>
+                                      <FormGenerateLink
+                                        id_invitation={invitation.id_invitation}
+                                      />
+                                    </DialogHeader>
+                                  </DialogContent>
+                                </Dialog>
+                              </DropdownMenuItem>
+                            )}
+
+                            {/* Share Social Media */}
+                            <DropdownMenuItem
+                              disabled={!invitation.InvitationLink.link}
+                              asChild
+                            >
+                              <Dialog>
+                                <DialogTrigger className="focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+                                  <Share2 />
+                                  Bagikan ke Sosial Media
+                                </DialogTrigger>
+
+                                <DialogContent>
+                                  <DialogHeader>
+                                    <DialogTitle>
+                                      Bagikan ke Sosial Media
+                                    </DialogTitle>
+                                    <DialogDescription>
+                                      Pilih platform yang anda ingin bagikan!
+                                    </DialogDescription>
+                                    <FormShareSocialMedia />
+                                  </DialogHeader>
+                                  <DialogFooter>
+                                    <DialogClose asChild>
+                                      <Button variant="destructive">
+                                        Tutup
+                                      </Button>
+                                    </DialogClose>
+                                  </DialogFooter>
+                                </DialogContent>
+                              </Dialog>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </div>

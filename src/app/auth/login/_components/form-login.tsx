@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { CircleAlert } from "lucide-react";
 
@@ -13,6 +14,8 @@ import { Button } from "@/components/ui/button";
 import { Login } from "@/services/api";
 
 export default function FormLogin() {
+  const router = useRouter();
+
   const [loading, set_loading] = React.useState<boolean>(false);
 
   const [email, set_email] = React.useState<string>("");
@@ -30,6 +33,8 @@ export default function FormLogin() {
 
     if (data.token) {
       Cookies.set("token", data.token);
+
+      return router.push("/");
     }
     set_loading(false);
   }

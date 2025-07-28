@@ -23,6 +23,7 @@ import {
   DialogClose,
 } from "./ui/dialog";
 import { Button } from "./ui/button";
+import FormLogout from "./form-logout";
 
 // Menu items.
 const items = [
@@ -86,14 +87,7 @@ export function AppSidebar() {
                       Apakah kamu ingin logout?
                     </DialogDescription>
                     <DialogFooter>
-                      <form action="" className="flex gap-1">
-                        <DialogClose asChild>
-                          <Button type="button" variant="destructive">
-                            Tidak
-                          </Button>
-                        </DialogClose>
-                        <Button type="submit">Ya</Button>
-                      </form>
+                      <FormLogout />
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>

@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Evowish",
+  title: "Undangan Digital",
 };
 
 export default function RootLayout({

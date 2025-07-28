@@ -96,7 +96,7 @@ export async function GetInvitations(token: string) {
       },
     });
 
-    return res.data;
+    return res.data as { invitations: [] };
   } catch (error) {
     if (error instanceof AxiosError) {
       return error.response?.data;
