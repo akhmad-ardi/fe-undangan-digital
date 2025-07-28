@@ -16,7 +16,7 @@ export default async function page({ params }: Props) {
 
   return (
     <>
-      <WeddingInvitation />
+      {/* <WeddingInvitation /> */}
       {/* <BirthdayInvitation /> */}
       {/* <MeetingInvitation /> */}
       {/* <ReligiousInvitation /> */}
