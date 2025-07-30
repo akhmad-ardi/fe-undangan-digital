@@ -1,12 +1,14 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { Copy } from "lucide-react";
+import { Check, Copy, X } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@/components/ui/dialog";
+import { toast } from "sonner";
 
 import { GenerateLink } from "@/services/api";
 
@@ -15,6 +17,8 @@ type Props = {
 };
 
 export default function FormGenerateLink({ id_invitation }: Props) {
+  const router = useRouter();
+
   const [loading, set_loading] = React.useState<boolean>(false);
 
   const [link, set_link] = React.useState<string>("");
@@ -29,6 +33,8 @@ export default function FormGenerateLink({ id_invitation }: Props) {
 
     set_link(data.link);
 
+    router.refresh();
+
     set_loading(false);
   }
 
@@ -36,22 +42,21 @@ export default function FormGenerateLink({ id_invitation }: Props) {
     navigator.clipboard
       .writeText(link)
       .then(() => {
-        console.log("Tautan berhasil disalin!");
+        toast("Salin Tautan Undangan Berhasil", {
+          position: "top-center",
+          icon: <Check />,
+        });
       })
       .catch((err) => {
-        console.error("Gagal menyalin tautan:", err);
+        toast("Salin Tautan Undangan Tidak Berhasil", {
+          position: "top-center",
+          icon: <X />,
+        });
       });
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="mb-3 flex w-full items-center gap-2">
-        <Input type="text" value={link} disabled />
-        <Button type="button" variant="outline" onClick={handleCopy}>
-          <Copy />
-        </Button>
-      </div>
-
       <div className="flex justify-end gap-2">
         <DialogClose asChild>
           <Button type="button" variant="destructive" disabled={loading}>

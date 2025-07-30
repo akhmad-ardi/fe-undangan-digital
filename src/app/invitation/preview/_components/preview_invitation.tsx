@@ -35,7 +35,7 @@ export default function PreviewInvitation({ id_template }: Props) {
     }
   }, []);
 
-  if (id_template === "UNDANGAN1") {
+  if (id_template === "UNDANGN1") {
     return (
       <WeddingInvitation
         title={title}
@@ -50,7 +50,7 @@ export default function PreviewInvitation({ id_template }: Props) {
     );
   }
 
-  if (id_template === "UNDANGAN2") {
+  if (id_template === "UNDANGN2") {
     return (
       <MeetingInvitation
         title={title}
@@ -65,7 +65,7 @@ export default function PreviewInvitation({ id_template }: Props) {
     );
   }
 
-  if (id_template === "UNDANGAN3") {
+  if (id_template === "UNDANGN3") {
     return (
       <ReligiousInvitation
         title={title}
@@ -80,7 +80,7 @@ export default function PreviewInvitation({ id_template }: Props) {
     );
   }
 
-  if (id_template === "UNDANGAN4") {
+  if (id_template === "UNDANGN4") {
     return (
       <BirthdayInvitation
         title={title}

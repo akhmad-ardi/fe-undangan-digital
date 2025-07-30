@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import {
   MailOpen,
   CirclePlus,
@@ -36,13 +37,13 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-
-import { Auth } from "@/services/auth";
-import { GetInvitations } from "@/services/api";
-import { redirect } from "next/navigation";
 import FormShareSocialMedia from "./_components/form-share-social-media";
 import FormGenerateLink from "./_components/form-generate-link";
 import CopyLink from "./_components/copy-link";
+import CreateInvitationButton from "./_components/create-invitation-button";
+
+import { Auth } from "@/services/auth";
+import { GetInvitations } from "@/services/api";
 
 export default async function Home() {
   const auth = await Auth();
@@ -65,11 +66,7 @@ export default async function Home() {
           <h1 className="mt-16 mb-7 text-center text-3xl">Daftar Undangan</h1>
 
           <div className="mb-3">
-            <Button asChild>
-              <Link href="create-invitation">
-                <Plus /> Buat Undangan
-              </Link>
-            </Button>
+            <CreateInvitationButton />
           </div>
 
           <div className="w-full overflow-x-auto">
@@ -122,7 +119,10 @@ export default async function Home() {
 
                           <DropdownMenuContent>
                             {/* Lihat Undangan */}
-                            <DropdownMenuItem asChild>
+                            <DropdownMenuItem
+                              asChild
+                              disabled={!invitation.InvitationLink.link}
+                            >
                               <Link
                                 href={invitation.InvitationLink.link}
                                 target="_blank"

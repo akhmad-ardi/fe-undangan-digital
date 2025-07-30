@@ -26,7 +26,6 @@ export default function FormChooseTemplate({
   const router = useRouter();
 
   const {
-    background_image,
     updateIdTemplate,
     updatePrimaryColor,
     updateSecondaryColor,

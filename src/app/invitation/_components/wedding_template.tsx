@@ -7,6 +7,8 @@ import { Heart } from "lucide-react";
 // components
 import { Card, CardContent } from "@/components/ui/card";
 
+import { BACKEND_URL } from "@/lib/utils";
+
 type Props = {
   title: string;
   location: string;
@@ -28,10 +30,16 @@ export default function WeddingInvitation({
   primary_color,
   secondary_color,
 }: Props) {
+  const BackgroundImage = background_image.includes("base64")
+    ? background_image
+    : `${BACKEND_URL}/public/${background_image}`;
+
   return (
     <div
       className="flex min-h-screen flex-col items-center justify-center bg-cover bg-fixed bg-center p-6"
-      style={{ backgroundImage: `url('${background_image}')` }}
+      style={{
+        backgroundImage: `url('${BackgroundImage}')`,
+      }}
     >
       {/* Overlay */}
       <div className="absolute inset-0 z-0 bg-black/20" />

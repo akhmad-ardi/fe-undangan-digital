@@ -11,6 +11,8 @@ type State = {
   primary_color: string;
   secondary_color: string;
   background_image: string;
+
+  msg_success: string;
 };
 
 type Action = {
@@ -24,6 +26,7 @@ type Action = {
   updateSecondaryColor: (secondary_color: State["secondary_color"]) => void;
   setDefaultBackgroundImage: (background_image: string) => void;
   setBackgroundImage: (background_image: File) => void;
+  setMsgSuccess: (msg: string) => void;
   resetStates: () => void;
 };
 
@@ -37,6 +40,7 @@ export const initialState: State = {
   primary_color: "",
   secondary_color: "",
   background_image: "",
+  msg_success: "",
 };
 
 export const useCreateInvitationStore = create<State & Action>()(
@@ -62,6 +66,7 @@ export const useCreateInvitationStore = create<State & Action>()(
         };
         reader.readAsDataURL(file);
       },
+      setMsgSuccess: (msg: string) => set(() => ({ msg_success: msg })),
       resetStates: () => {
         set(initialState);
       },

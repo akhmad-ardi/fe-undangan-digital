@@ -6,6 +6,8 @@ import { motion } from "motion/react";
 // components
 import { Card, CardContent } from "@/components/ui/card";
 
+import { BACKEND_URL } from "@/lib/utils";
+
 type Props = {
   title: string;
   location: string;
@@ -27,10 +29,15 @@ export default function MeetingInvitation({
   primary_color,
   secondary_color,
 }: Props) {
+  const BackgroundImage = background_image.includes("base64")
+    ? background_image
+    : `${BACKEND_URL}/public/${background_image}`;
   return (
     <div
       className="relative flex min-h-screen items-center justify-center bg-gray-100 bg-cover bg-center p-6"
-      style={{ backgroundImage: `url('${background_image}')` }}
+      style={{
+        backgroundImage: `url('${BackgroundImage}')`,
+      }}
     >
       <div className="absolute inset-0 z-0 bg-black/30" />
 

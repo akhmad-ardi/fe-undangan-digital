@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import { AxiosInstance } from "../lib/axios-instance";
+import { GetInvitationInterface } from "@/lib/utils";
 
 export async function Register(data: {
   email: string;
@@ -108,7 +109,7 @@ export async function GetInvitation(id_invitation: string) {
   try {
     const res = await AxiosInstance.get(`/invitation/${id_invitation}`);
 
-    return res.data;
+    return res.data.invitation as GetInvitationInterface;
   } catch (error) {
     if (error instanceof AxiosError) {
       return error.response?.data;
