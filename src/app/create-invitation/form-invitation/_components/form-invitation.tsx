@@ -34,7 +34,9 @@ export default function FormInvitation() {
   const router = useRouter();
 
   const [loading, set_loading] = React.useState<boolean>(false);
+
   const STATE = useCreateInvitationStore((state) => state);
+
   const [title_msg_error, set_title_msg_error] = React.useState<string>("");
   const [location_msg_error, set_location_msg_error] =
     React.useState<string>("");
@@ -87,10 +89,17 @@ export default function FormInvitation() {
     set_description_msg_error(CreateData.validation_errors?.description || "");
 
     if (CreateData.message) {
-      await GenerateLink({ id_invitation: CreateData.id_invitation }, TOKEN);
+      const form = document.querySelector("form") as HTMLFormElement;
+      const formData = new FormData(form);
+      const action = formData.get("action");
 
-      console.log(CreateData.message);
-      STATE.setMsgSuccess(CreateData.messaage);
+      if (action === "create-invitation-and-generate-link") {
+        await GenerateLink({ id_invitation: CreateData.id_invitation }, TOKEN);
+      }
+
+      STATE.setMsgSuccess(CreateData.message);
+
+      set_loading(false);
       router.push("/");
     }
 
@@ -264,7 +273,21 @@ export default function FormInvitation() {
                   </Button>
                 </DialogClose>
 
-                <Button type="submit" disabled={loading}>
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  name="action"
+                  value="create-invitation"
+                >
+                  Buat Undangan
+                </Button>
+
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  name="action"
+                  value="create-invitation-and-generate-link"
+                >
                   Buat Undangan dan Generate Link
                 </Button>
               </DialogFooter>

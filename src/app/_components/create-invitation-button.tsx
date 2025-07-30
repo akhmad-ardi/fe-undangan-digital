@@ -16,6 +16,7 @@ export default function CreateInvitationButton() {
     if (STATE.msg_success) {
       toast(STATE.msg_success, {
         icon: <Check />,
+        position: "top-center",
       });
     }
   }, []);

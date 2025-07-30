@@ -177,7 +177,9 @@ export default async function Home() {
                                     <DialogDescription>
                                       Pilih platform yang anda ingin bagikan!
                                     </DialogDescription>
-                                    <FormShareSocialMedia />
+                                    <FormShareSocialMedia
+                                      id_invitation={invitation.id_invitation}
+                                    />
                                   </DialogHeader>
                                   <DialogFooter>
                                     <DialogClose asChild>

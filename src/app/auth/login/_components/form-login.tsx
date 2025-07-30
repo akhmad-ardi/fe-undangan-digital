@@ -12,16 +12,25 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 import { Login } from "@/services/api";
+import { useCreateInvitationStore } from "@/stores/useCreateInvitationStore";
 
 export default function FormLogin() {
   const router = useRouter();
 
   const [loading, set_loading] = React.useState<boolean>(false);
 
+  const STATE = useCreateInvitationStore((state) => state);
+
   const [email, set_email] = React.useState<string>("");
   const [email_msg_err, set_email_msg_err] = React.useState<string>("");
   const [password, set_password] = React.useState<string>("");
   const [password_msg_err, set_password_msg_err] = React.useState<string>("");
+
+  React.useEffect(() => {
+    if (STATE.msg_success) {
+      STATE.resetStates();
+    }
+  }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     set_loading(true);

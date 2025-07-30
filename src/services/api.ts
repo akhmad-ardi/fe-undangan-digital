@@ -117,6 +117,22 @@ export async function GetInvitation(id_invitation: string) {
   }
 }
 
+export async function GuestView(data: {
+  id_invitation_link: string;
+  ip_address: string;
+  user_agent: string;
+}) {
+  try {
+    const res = await AxiosInstance.post("/invitation/guest_view", data);
+
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.data;
+    }
+  }
+}
+
 export async function GenerateLink(
   data: { id_invitation: string },
   token: string,
