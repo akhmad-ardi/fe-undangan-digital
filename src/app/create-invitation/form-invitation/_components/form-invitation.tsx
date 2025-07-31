@@ -89,10 +89,11 @@ export default function FormInvitation() {
     set_description_msg_error(CreateData.validation_errors?.description || "");
 
     if (CreateData.message) {
-      const form = document.querySelector("form") as HTMLFormElement;
-      const formData = new FormData(form);
-      const action = formData.get("action");
+      const submitter = (e.nativeEvent as SubmitEvent)
+        .submitter as HTMLButtonElement;
+      const action = submitter?.value;
 
+      console.log(action);
       if (action === "create-invitation-and-generate-link") {
         await GenerateLink({ id_invitation: CreateData.id_invitation }, TOKEN);
       }
@@ -107,7 +108,7 @@ export default function FormInvitation() {
   }
 
   return (
-    <form className="mx-auto mt-10 mb-3 w-[80%] lg:w-[40%]">
+    <div className="mx-auto mt-10 mb-3 w-[80%] lg:w-[40%]">
       <div className="mb-3">
         <Button asChild>
           <Link
@@ -308,6 +309,6 @@ export default function FormInvitation() {
           Pilih Template
         </Button>
       </div>
-    </form>
+    </div>
   );
 }

@@ -117,6 +117,25 @@ export async function GetInvitation(id_invitation: string) {
   }
 }
 
+export async function DeleteInvitation(id_invitation: string, token: string) {
+  try {
+    const res = await AxiosInstance.delete(
+      `/invitation/delete/${id_invitation}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.data;
+    }
+  }
+}
+
 export async function GuestView(data: {
   id_invitation_link: string;
   ip_address: string;
