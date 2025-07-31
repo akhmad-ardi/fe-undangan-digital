@@ -75,6 +75,7 @@ export default function DialogShareSocialMedia({ id_invitation }: Props) {
               <Button
                 type="submit"
                 className="flex h-fit w-full cursor-pointer flex-col bg-green-600 hover:bg-green-500"
+                disabled={loading}
               >
                 <FontAwesomeIcon icon={faWhatsapp} size="2x" />
                 Bagikan ke WhatsApp
@@ -84,7 +85,9 @@ export default function DialogShareSocialMedia({ id_invitation }: Props) {
         </DialogHeader>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="destructive">Tutup</Button>
+            <Button variant="destructive" disabled={loading}>
+              Tutup
+            </Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>

@@ -27,9 +27,7 @@ export default function FormLogin() {
   const [password_msg_err, set_password_msg_err] = React.useState<string>("");
 
   React.useEffect(() => {
-    if (STATE.msg_success) {
-      STATE.resetStates();
-    }
+    STATE.resetStates();
   }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
