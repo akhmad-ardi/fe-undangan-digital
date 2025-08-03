@@ -13,12 +13,13 @@ import {
   DialogTitle,
   DialogDescription,
   DialogClose,
-} from "@radix-ui/react-dialog";
+  DialogHeader,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 import { ShareSocialMedia } from "@/services/api";
-import { DialogHeader, DialogFooter } from "@/components/ui/dialog";
 
 type Props = {
   id_invitation: string;

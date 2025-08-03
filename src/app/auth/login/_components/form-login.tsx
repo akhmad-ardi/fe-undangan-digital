@@ -83,7 +83,7 @@ export default function FormLogin() {
       </div>
 
       <Button type="submit" className="w-full" disabled={loading}>
-        Submit
+        Login
       </Button>
     </form>
   );

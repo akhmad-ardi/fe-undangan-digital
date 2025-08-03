@@ -147,6 +147,7 @@ export default async function Home() {
                               />
                             </DropdownMenuItem>
 
+                            {/* Delete Undangan */}
                             <DropdownMenuItem asChild>
                               <DialogDeleteInvitation
                                 id_invitation={invitation.id_invitation}

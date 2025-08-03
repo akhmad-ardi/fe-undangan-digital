@@ -120,7 +120,7 @@ export default function FormRegister() {
       </div>
 
       <Button type="submit" className="w-full" disabled={loading}>
-        Submit
+        Daftar
       </Button>
     </form>
   );
