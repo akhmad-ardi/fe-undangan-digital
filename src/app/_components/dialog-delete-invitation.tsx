@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { Check, Trash2 } from "lucide-react";
+import { AlertCircle, Check, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +20,8 @@ import { toast } from "sonner";
 
 import { DeleteInvitation } from "@/services/api";
 
+import { useCreateInvitationStore } from "@/stores/useCreateInvitationStore";
+
 type Props = {
   id_invitation: string;
   title: string;
@@ -31,8 +33,13 @@ export default function DialogDeleteInvitation({
 }: Props) {
   const router = useRouter();
 
-  const [open_dialog, set_open_dialog] = React.useState<boolean>(false);
   const [loading, set_loading] = React.useState<boolean>(false);
+
+  const { reset_states } = useCreateInvitationStore((state) => state);
+
+  React.useEffect(() => {
+    reset_states();
+  }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -41,6 +48,13 @@ export default function DialogDeleteInvitation({
     const TOKEN = Cookies.get("token") || "";
 
     const data = await DeleteInvitation(id_invitation, TOKEN);
+
+    if (data.message_error) {
+      toast(data.message_error, {
+        icon: <AlertCircle />,
+        position: "top-center",
+      });
+    }
 
     if (data.message) {
       router.refresh();

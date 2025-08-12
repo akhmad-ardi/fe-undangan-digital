@@ -5,10 +5,12 @@ import { redirect } from "next/navigation";
 // components
 import { Slider } from "@/components/ui/slider";
 import { Card, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+import DialogChooseTemplate from "./_components/dialog-choose-template";
 
 import { GetTemplates } from "@/services/api";
 import { Auth } from "@/services/auth";
-import DialogChooseTemplate from "./_components/dialog-choose-template";
+
+import { BACKEND_URL } from "@/lib/utils";
 
 export default async function page() {
   const auth = await Auth();
@@ -39,7 +41,7 @@ export default async function page() {
             <Card className="p-3" key={index}>
               <CardContent className="p-0">
                 <Image
-                  src={`http://localhost:3001/public/${template.background_image}`}
+                  src={`${BACKEND_URL}/public/${template.template_image}`}
                   height={250}
                   width={250}
                   alt="Gambar Tidak Ditemukan"

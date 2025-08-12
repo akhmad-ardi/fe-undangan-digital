@@ -171,7 +171,7 @@ export async function GetInvitation(id_invitation: string) {
 export async function DeleteInvitation(id_invitation: string, token: string) {
   try {
     const res = await AxiosInstance.delete(
-      `/invitation/delete/${id_invitation}`,
+      `/invitation/delete_invitation/${id_invitation}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

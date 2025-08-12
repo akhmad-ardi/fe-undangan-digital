@@ -3,12 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import {
-  AlertCircle,
-  AlertTriangle,
-  ArrowLeft,
-  CheckCircle,
-} from "lucide-react";
+import { AlertCircle, ArrowLeft, CheckCircle } from "lucide-react";
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -23,7 +18,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import { AddDataInvitation, GenerateLink } from "@/services/api";
+import { AddDataInvitation } from "@/services/api";
+import { useCreateInvitationStore } from "@/stores/useCreateInvitationStore"; // pastikan path sesuai
 
 type Props = {
   id_invitation: string;
@@ -35,29 +31,48 @@ export default function FormDataInvitation({
   initial_data,
 }: Props) {
   const router = useRouter();
-
-  const [form_data, set_form_data] = React.useState(initial_data);
-  const [loading, set_loading] = React.useState(false);
-
   const token = Cookies.get("token") || "";
 
+  // Ambil state dari zustand
+  const { data_invitation, update_data_invitation, reset_states } =
+    useCreateInvitationStore();
+
+  const [loading, set_loading] = React.useState(false);
+  const [loading_data_invitation, set_loading_data_invitation] =
+    React.useState(false);
+
+  // Sinkronkan initial_data hanya saat pertama kali mount
+  React.useEffect(() => {
+    reset_states();
+
+    if (!data_invitation || Object.keys(data_invitation).length === 0) {
+      update_data_invitation(initial_data);
+    }
+  }, []);
+
   function handleChange(path: string[], value: any) {
-    set_form_data((prev: any) => {
-      const newData = { ...prev };
-      let current: any = newData;
-      for (let i = 0; i < path.length - 1; i++) {
-        current = current[path[i]];
+    const prev = useCreateInvitationStore.getState().data_invitation;
+    const newData = structuredClone(prev);
+
+    let current: any = newData;
+    for (let i = 0; i < path.length - 1; i++) {
+      if (!current[path[i]] || typeof current[path[i]] !== "object") {
+        current[path[i]] = {};
       }
-      current[path[path.length - 1]] = value;
-      return newData;
-    });
+      current = current[path[i]];
+    }
+    current[path[path.length - 1]] = value ?? "";
+
+    console.log("Data Invitation Store: ", newData);
+    update_data_invitation(newData);
   }
 
   function renderFields(obj: any, path: string[] = []) {
+    if (!obj || typeof obj !== "object") return null; // guard
+
     return Object.entries(obj).map(([key, value]) => {
       const currentPath = [...path, key];
 
-      // Jika nested object → rekursif
       if (
         typeof value === "object" &&
         value !== null &&
@@ -74,13 +89,11 @@ export default function FormDataInvitation({
         );
       }
 
-      // Pilih tipe input berdasarkan tipe value
       let inputType: "text" | "date" | "time" | "color" | "url" = "text";
       if (key.toLowerCase().includes("date")) inputType = "date";
       else if (key.toLowerCase().includes("time")) inputType = "time";
       else if (key.toLowerCase().includes("color")) inputType = "color";
 
-      // Kalau string panjang atau key tertentu → textarea
       const isTextarea =
         typeof value === "string" &&
         (value.length > 50 ||
@@ -96,18 +109,18 @@ export default function FormDataInvitation({
           {isTextarea ? (
             <Textarea
               id={currentPath.join(".")}
-              value={value}
+              value={value ?? ""}
               onChange={(e) => handleChange(currentPath, e.target.value)}
               rows={5}
-              placeholder={value}
+              placeholder={value ?? ""}
             />
           ) : (
             <Input
               id={currentPath.join(".")}
               type={inputType}
-              value={String(value)}
+              value={String(value ?? "")}
               onChange={(e) => handleChange(currentPath, e.target.value)}
-              placeholder={String(value)}
+              placeholder={String(value ?? "")}
             />
           )}
         </div>
@@ -119,8 +132,6 @@ export default function FormDataInvitation({
     e.preventDefault();
     set_loading(true);
 
-    const data_invitation = form_data;
-
     const data = await AddDataInvitation(id_invitation, data_invitation, token);
 
     if (!data.message) {
@@ -130,51 +141,51 @@ export default function FormDataInvitation({
       });
     }
 
-    toast(data.message, {
-      icon: <CheckCircle />,
-      position: "top-center",
-    });
+    if (data.message) {
+      toast(data.message, {
+        icon: <CheckCircle />,
+        position: "top-center",
+      });
+    }
 
     set_loading(false);
   }
 
   return (
-    <>
-      <Card>
-        <CardHeader>
-          <CardTitle>Data Undangan</CardTitle>
-          <CardDescription>Silahkan isi data undangan</CardDescription>
-        </CardHeader>
+    <Card>
+      <CardHeader>
+        <CardTitle>Data Undangan</CardTitle>
+        <CardDescription>Silahkan isi data undangan</CardDescription>
+      </CardHeader>
 
-        <CardContent>
-          <form
-            onSubmit={handleSubmitDataInvitation}
-            className="mx-auto max-w-xl"
+      <CardContent>
+        <form
+          onSubmit={handleSubmitDataInvitation}
+          className="mx-auto max-w-xl"
+        >
+          {renderFields(data_invitation)}
+
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "Loading..." : "Submit"}
+          </Button>
+
+          <Button
+            type="button"
+            className="mt-1 w-full"
+            variant="destructive"
+            disabled={loading}
+            onClick={() => router.push("/create-invitation")}
           >
-            {renderFields(form_data)}
-
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Loading..." : "Submit"}
-            </Button>
-
-            <Button
-              type="button"
-              className="mt-1 w-full"
-              variant="destructive"
-              disabled={loading}
-              onClick={() => router.push("/create-invitation")}
-            >
-              {loading ? (
-                "Loading..."
-              ) : (
-                <>
-                  <ArrowLeft /> Pilih Template{" "}
-                </>
-              )}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </>
+            {loading ? (
+              "Loading..."
+            ) : (
+              <>
+                <ArrowLeft /> Pilih Template{" "}
+              </>
+            )}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

@@ -3,9 +3,10 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { CircleAlert } from "lucide-react";
+import { AlertCircle, CircleAlert } from "lucide-react";
 
 // components
+import { toast } from "sonner";
 import { Alert } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -27,7 +28,7 @@ export default function FormLogin() {
   const [password_msg_err, set_password_msg_err] = React.useState<string>("");
 
   React.useEffect(() => {
-    STATE.resetStates();
+    STATE.reset_states();
   }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -43,6 +44,14 @@ export default function FormLogin() {
 
       return router.push("/");
     }
+
+    if (data.message_error) {
+      toast(data.message_error, {
+        icon: <AlertCircle />,
+        position: "top-center",
+      });
+    }
+
     set_loading(false);
   }
 

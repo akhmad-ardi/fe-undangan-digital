@@ -79,45 +79,45 @@ export default function WeddingInvitation({
       >
         <h1
           className="mb-4 text-center text-5xl font-bold"
-          style={{ color: data_invitation.theme.primary_color }}
+          style={{ color: data_invitation?.theme?.primary_color }}
         >
-          {data_invitation.event.title}
+          {data_invitation?.event?.title}
         </h1>
 
         <p
           className="mb-5 text-center text-lg"
           style={{
-            color: data_invitation.theme.secondary_color,
+            color: data_invitation?.theme?.secondary_color,
             fontFamily: poppins.style.fontFamily,
           }}
         >
-          {data_invitation.message}
+          {data_invitation?.message}
         </p>
 
         <section>
           <div
             className="flex justify-center gap-5 text-2xl"
-            style={{ color: data_invitation.theme.primary_color }}
+            style={{ color: data_invitation?.theme?.primary_color }}
           >
             <div className="text-center">
               <h2 className="mb-1 text-2xl font-semibold">
-                {data_invitation.event.groom.full_name}
+                {data_invitation?.event?.groom.full_name}
               </h2>
-              <p>{data_invitation.event.groom.nickname}</p>
+              <p>{data_invitation?.event?.groom.nickname}</p>
             </div>
 
             <motion.div
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              <Heart size={50} color={data_invitation.theme.primary_color} />
+              <Heart size={50} color={data_invitation?.theme?.primary_color} />
             </motion.div>
 
             <div className="text-center">
               <h2 className="mb-1 text-2xl font-semibold">
-                {data_invitation.event.bride.full_name}
+                {data_invitation?.event?.bride.full_name}
               </h2>
-              <p>{data_invitation.event.bride.nickname}</p>
+              <p>{data_invitation?.event?.bride.nickname}</p>
             </div>
           </div>
         </section>
@@ -126,55 +126,55 @@ export default function WeddingInvitation({
           <div className="my-3 text-center">
             <p
               className="font-bold"
-              style={{ color: data_invitation.theme.primary_color }}
+              style={{ color: data_invitation?.theme?.primary_color }}
             >
               Hari / Tanggal:
             </p>
             <p
               className="text-lg"
               style={{
-                color: data_invitation.theme.secondary_color,
+                color: data_invitation?.theme?.secondary_color,
                 fontFamily: poppins.style.fontFamily,
               }}
             >
-              {data_invitation.event.date}
+              {data_invitation?.event?.date}
             </p>
           </div>
 
           <div className="mb-3 text-center">
             <p
               className="font-bold"
-              style={{ color: data_invitation.theme.primary_color }}
+              style={{ color: data_invitation?.theme?.primary_color }}
             >
               Waktu:
             </p>
             <p
               className="text-lg"
               style={{
-                color: data_invitation.theme.secondary_color,
+                color: data_invitation?.theme?.secondary_color,
                 fontFamily: poppins.style.fontFamily,
               }}
             >
-              Pukul {data_invitation.event.time}
+              Pukul {data_invitation?.event?.time}
             </p>
           </div>
 
           <div className="mb-3 text-center">
             <p
               className="font-bold"
-              style={{ color: data_invitation.theme.primary_color }}
+              style={{ color: data_invitation?.theme?.primary_color }}
             >
               Lokasi:
             </p>
             <p
               className="text-lg"
               style={{
-                color: data_invitation.theme.secondary_color,
+                color: data_invitation?.theme?.secondary_color,
                 fontFamily: poppins.style.fontFamily,
               }}
             >
-              {data_invitation.event.venue.name} |{" "}
-              {data_invitation.event.venue.address}
+              {data_invitation?.event?.venue.name} |{" "}
+              {data_invitation?.event?.venue.address}
             </p>
           </div>
         </section>

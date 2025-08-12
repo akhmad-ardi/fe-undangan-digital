@@ -10,11 +10,13 @@ export async function Auth() {
 
   const data = await CheckAuth(token);
   if (data.hasOwnProperty("message_error")) {
+    // if (cookieStore.get("token")) cookieStore.delete("token");
+
     return { is_auth: false, token: "" };
   }
 
   return {
-    is_auth: data.hasOwnProperty("is_auth"),
+    is_auth: data.is_auth,
     token,
   };
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 import WeddingInvitation from "../_components/wedding_template";
 import BirthdayInvitation from "../_components/birthday_template";
@@ -24,8 +25,12 @@ export default async function page({ params }: Props) {
 
   const invitation = await GetInvitation(id_invitation);
 
+  if (!invitation.InvitationLink?.id_invitation_link) {
+    return redirect("/");
+  }
+
   await GuestView({
-    id_invitation_link: invitation.InvitationLink.id_invitation_link,
+    id_invitation_link: invitation.InvitationLink?.id_invitation_link,
     ip_address: ip,
     user_agent: userAgent,
   });

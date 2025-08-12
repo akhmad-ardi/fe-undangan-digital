@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { MailOpen, EllipsisVertical, PenBoxIcon } from "lucide-react";
+import { MailOpen, EllipsisVertical, PenBoxIcon, Plus } from "lucide-react";
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
@@ -23,7 +23,6 @@ import { Button } from "@/components/ui/button";
 import DialogShareSocialMedia from "./_components/dialog-share-social-media";
 import DialogGenerateLink from "./_components/dialog-generate-link";
 import CopyLink from "./_components/copy-link";
-import CreateInvitationButton from "./_components/create-invitation-button";
 import DialogDeleteInvitation from "./_components/dialog-delete-invitation";
 
 import { Auth } from "@/services/auth";
@@ -52,7 +51,11 @@ export default async function Home() {
           <h1 className="mt-16 mb-7 text-center text-3xl">Daftar Undangan</h1>
 
           <div className="mb-3">
-            <CreateInvitationButton />
+            <Button asChild>
+              <Link href="create-invitation">
+                <Plus /> Buat Undangan
+              </Link>
+            </Button>
           </div>
 
           <div className="w-full overflow-x-auto">

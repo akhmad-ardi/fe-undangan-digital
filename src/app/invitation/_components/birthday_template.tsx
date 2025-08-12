@@ -50,7 +50,7 @@ export default function BirthdayInvitation({
         <motion.h1
           className="mb-2 text-5xl font-bold"
           style={{
-            background: `linear-gradient(90deg, ${data_invitation.theme.primary_color}, ${data_invitation.theme.secondary_color})`,
+            background: `linear-gradient(90deg, ${data_invitation?.theme?.primary_color}, ${data_invitation?.theme?.secondary_color})`,
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
           }}
@@ -58,33 +58,34 @@ export default function BirthdayInvitation({
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          {data_invitation.event.title}
+          {data_invitation?.event?.title}
         </motion.h1>
+
         <RainingConfetti />
 
         {/* Host name */}
         <motion.h2
           className="mb-4 text-3xl"
-          style={{ color: data_invitation.theme.primary_color }}
+          style={{ color: data_invitation?.theme?.primary_color }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
         >
-          Mengundangmu ke pesta {data_invitation.event.host_name} 🎁
+          Mengundangmu ke pesta {data_invitation?.event?.host_name} 🎁
         </motion.h2>
 
         {/* Pesan */}
         <motion.p
           className="mb-6 text-lg"
           style={{
-            color: data_invitation.theme.secondary_color,
+            color: data_invitation?.theme?.secondary_color,
             fontFamily: openSans.style.fontFamily,
           }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
         >
-          {data_invitation.message}
+          {data_invitation?.message}
         </motion.p>
 
         {/* Info Acara */}
@@ -98,40 +99,40 @@ export default function BirthdayInvitation({
           <div>
             <p
               className="font-bold"
-              style={{ color: data_invitation.theme.primary_color }}
+              style={{ color: data_invitation?.theme?.primary_color }}
             >
               Acara
             </p>
-            <p>{data_invitation.event.occasion}</p>
+            <p>{data_invitation?.event?.occasion}</p>
           </div>
           <div>
             <p
               className="font-bold"
-              style={{ color: data_invitation.theme.primary_color }}
+              style={{ color: data_invitation?.theme?.primary_color }}
             >
               Hari / Tanggal
             </p>
-            <p>{data_invitation.event.date}</p>
+            <p>{data_invitation?.event?.date}</p>
           </div>
           <div>
             <p
               className="font-bold"
-              style={{ color: data_invitation.theme.primary_color }}
+              style={{ color: data_invitation?.theme?.primary_color }}
             >
               Waktu
             </p>
-            <p>Pukul {data_invitation.event.time}</p>
+            <p>Pukul {data_invitation?.event?.time}</p>
           </div>
           <div>
             <p
               className="font-bold"
-              style={{ color: data_invitation.theme.primary_color }}
+              style={{ color: data_invitation?.theme?.primary_color }}
             >
               Lokasi
             </p>
             <p>
-              {data_invitation.event.location.venue} |{" "}
-              {data_invitation.event.location.address}
+              {data_invitation?.event?.location.venue} |{" "}
+              {data_invitation?.event?.location.address}
             </p>
           </div>
         </motion.div>

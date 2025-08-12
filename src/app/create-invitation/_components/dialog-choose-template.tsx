@@ -21,6 +21,8 @@ import { toast } from "sonner";
 
 import { CreateInvitation } from "@/services/api";
 
+import { useCreateInvitationStore } from "@/stores/useCreateInvitationStore";
+
 type Props = {
   id_template: string;
   name_template: string;
@@ -39,9 +41,11 @@ export default function DialogChooseTemplate({
   const [loading, set_loading] = React.useState<boolean>(false);
   const [name_invitation, set_name_invitation] = React.useState<string>("");
 
-  // React.useEffect(() => {
-  //   console.log(data_invitation);
-  // }, []);
+  const { reset_states } = useCreateInvitationStore((state) => state);
+
+  React.useEffect(() => {
+    reset_states();
+  }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();

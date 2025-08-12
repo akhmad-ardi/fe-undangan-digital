@@ -36,7 +36,7 @@ export default async function page({ params }: Props) {
 
       <div className="mx-auto mt-5 flex w-8/12 gap-3">
         <Button asChild>
-          <Link href={`/invitation/${data.id_invitation}`} target="_blank">
+          <Link href={`/preview/${data.id_invitation}`} target="_blank">
             <ArrowUpRightFromSquare />
             Pratinjau Undangan
           </Link>
