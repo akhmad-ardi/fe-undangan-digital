@@ -20,7 +20,6 @@ import {
   DialogTitle,
   DialogFooter,
   DialogDescription,
-  DialogClose,
 } from "./ui/dialog";
 import { Button } from "./ui/button";
 import FormLogout from "./form-logout";
@@ -45,7 +44,10 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup className="h-full justify-between">
           <SidebarGroupLabel className="mt-10 justify-center text-center text-3xl">
-            Undangan Digital
+            <span className="bd-black me-1 rounded-lg border-2 border-black bg-black p-1 text-4xl text-white">
+              E
+            </span>
+            vowish
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="gap-3">

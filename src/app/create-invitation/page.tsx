@@ -1,23 +1,26 @@
 import React from "react";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 // components
 import { Slider } from "@/components/ui/slider";
 import { Card, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
-import FormChooseTemplate from "./_components/form-choose-template";
-import { Button } from "@/components/ui/button";
 
-import { TEMPLATES } from "@/lib/constant";
+import { GetTemplates } from "@/services/api";
+import { Auth } from "@/services/auth";
+import DialogChooseTemplate from "./_components/dialog-choose-template";
 
-export default function page() {
+export default async function page() {
+  const auth = await Auth();
+
+  if (!auth.is_auth) {
+    return redirect("/auth");
+  }
+
+  const { templates: TEMPLATES } = await GetTemplates(auth.token);
+
+  // console.log(TEMPLATES[0].data_template.theme);
+
   return (
     <>
       <h1 className="my-5 text-center text-3xl">Buat Undangan</h1>
@@ -31,46 +34,30 @@ export default function page() {
       <h1 className="mt-10 text-center">Pilih Template Undangan</h1>
 
       <div className="mt-7 mb-10 flex flex-col flex-wrap justify-center gap-3 lg:flex-row">
-        {TEMPLATES.map((template, index) => (
-          <Card className="p-3" key={index}>
-            <CardContent className="p-0">
-              <Image
-                src={`/assets/${template.image}`}
-                height={250}
-                width={250}
-                alt="Gambar Tidak Ditemukan"
-              />
+        {Array.isArray(TEMPLATES) &&
+          TEMPLATES.map((template, index) => (
+            <Card className="p-3" key={index}>
+              <CardContent className="p-0">
+                <Image
+                  src={`http://localhost:3001/public/${template.background_image}`}
+                  height={250}
+                  width={250}
+                  alt="Gambar Tidak Ditemukan"
+                />
 
-              <CardTitle className="mt-5">{template.name}</CardTitle>
-            </CardContent>
+                <CardTitle className="mt-5">{template.name}</CardTitle>
+              </CardContent>
 
-            <CardFooter className="p-0">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button>Pilih</Button>
-                </DialogTrigger>
-
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>{template.name}</DialogTitle>
-                  </DialogHeader>
-
-                  <DialogDescription className="my-3">
-                    Silahkan ubah warna dan latar belakang dari template jika
-                    dibutuhkan.
-                  </DialogDescription>
-
-                  <FormChooseTemplate
-                    id_template={template.id_template}
-                    primary_color={template.primary_color}
-                    secondary_color={template.secondary_color}
-                    default_background_image={template.default_background_image}
-                  />
-                </DialogContent>
-              </Dialog>
-            </CardFooter>
-          </Card>
-        ))}
+              <CardFooter className="p-0">
+                <DialogChooseTemplate
+                  id_template={template.id_template}
+                  name_template={template.name}
+                  background_image={template.background_image}
+                  data_invitation={template.data_template}
+                />
+              </CardFooter>
+            </Card>
+          ))}
       </div>
     </>
   );

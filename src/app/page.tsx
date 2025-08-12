@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { MailOpen, EllipsisVertical, Share2 } from "lucide-react";
+import { MailOpen, EllipsisVertical, PenBoxIcon } from "lucide-react";
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
@@ -19,16 +19,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogTitle,
-  DialogHeader,
-  DialogDescription,
-  DialogClose,
-  DialogFooter,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import DialogShareSocialMedia from "./_components/dialog-share-social-media";
 import DialogGenerateLink from "./_components/dialog-generate-link";
@@ -39,6 +29,8 @@ import DialogDeleteInvitation from "./_components/dialog-delete-invitation";
 import { Auth } from "@/services/auth";
 import { GetInvitations } from "@/services/api";
 
+import { parseDate } from "@/lib/utils";
+
 export default async function Home() {
   const auth = await Auth();
   if (!auth.is_auth) {
@@ -47,7 +39,7 @@ export default async function Home() {
 
   const { invitations } = await GetInvitations(auth.token);
 
-  // console.log(invitations);
+  // console.log(invitations[0].data_invitation.event.venue.address);
 
   return (
     <>
@@ -81,16 +73,17 @@ export default async function Home() {
                 {Array.isArray(invitations) &&
                   invitations.map((invitation, index) => (
                     <TableRow key={index}>
-                      <TableCell>{invitation.title}</TableCell>
-                      <TableCell>{invitation.location}</TableCell>
+                      <TableCell>{invitation.name}</TableCell>
                       <TableCell>
-                        {new Date(invitation.date).toISOString().split("T")[0]}
+                        {invitation.data_invitation.event.location
+                          ? invitation.data_invitation.event.location.address
+                          : invitation.data_invitation.event.venue.address}
                       </TableCell>
                       <TableCell>
-                        {new Date(invitation.time)
-                          .toISOString()
-                          .split("T")[1]
-                          .slice(0, 8)}
+                        {parseDate(invitation.data_invitation.event.date)}
+                      </TableCell>
+                      <TableCell>
+                        {invitation.data_invitation.event.time}
                       </TableCell>
                       <TableCell
                         className={`text-center ${
@@ -123,6 +116,15 @@ export default async function Home() {
                               >
                                 <MailOpen />
                                 Lihat Undangan
+                              </Link>
+                            </DropdownMenuItem>
+
+                            <DropdownMenuItem asChild>
+                              <Link
+                                href={`/create-invitation/data-invitation/${invitation.id_invitation}`}
+                              >
+                                <PenBoxIcon />
+                                Data Undangan
                               </Link>
                             </DropdownMenuItem>
 

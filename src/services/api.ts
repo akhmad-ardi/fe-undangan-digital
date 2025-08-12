@@ -14,6 +14,7 @@ export async function Register(data: {
     return res.data;
   } catch (error) {
     if (error instanceof AxiosError) {
+      console.log(error.response?.data);
       return error.response?.data;
     }
   }
@@ -47,39 +48,89 @@ export async function CheckAuth(token: string) {
   }
 }
 
+export async function GetTemplates(token: string) {
+  try {
+    const res = await AxiosInstance.get("/invitation/templates", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return res.data as { templates: [] };
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.data;
+    }
+  }
+}
+
 export async function CreateInvitation(
   data: {
     id_template: string;
-    title: string;
-    date: string;
-    time: string;
-    location: string;
-    description: string;
-    primary_color: string;
-    secondary_color: string;
-    background_image: File | string;
+    name: string;
+    background_image: string;
+    data_invitation: any;
   },
   token: string,
 ) {
   try {
-    const formData = new FormData();
-    formData.append("id_template", data.id_template);
-    formData.append("title", data.title);
-    formData.append("date", data.date);
-    formData.append("date", data.date);
-    formData.append("time", data.time);
-    formData.append("location", data.location);
-    formData.append("description", data.description);
-    formData.append("primary_color", data.primary_color);
-    formData.append("secondary_color", data.secondary_color);
-    formData.append("background_image", data.background_image);
-
-    const res = await AxiosInstance.post("/invitation/create", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`,
+    const res = await AxiosInstance.post(
+      "/invitation/create_invitation",
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
+
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.data;
+    }
+  }
+}
+
+export async function AddDataInvitation(
+  id_invitation: string,
+  data_invitation: any,
+  token: string,
+) {
+  try {
+    const res = await AxiosInstance.post(
+      `/invitation/add_data_invitation/${id_invitation}`,
+      { data_invitation },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.data;
+    }
+  }
+}
+
+export async function AddBackgroundImage(
+  id_invitation: string,
+  form_data: FormData,
+  token: string,
+) {
+  try {
+    const res = await AxiosInstance.post(
+      `/invitation/add_background_image/${id_invitation}`,
+      form_data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
 
     return res.data;
   } catch (error) {

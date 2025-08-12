@@ -14,7 +14,7 @@ export default async function page() {
 
   return (
     <Card className="mx-auto w-[90%] p-10 shadow md:w-[50%] lg:w-[35%]">
-      <h1 className="text-center text-3xl">Register</h1>
+      <h1 className="text-center text-3xl">Daftar</h1>
 
       <FormRegister />
 

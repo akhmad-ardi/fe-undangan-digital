@@ -1,48 +1,75 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { Heart } from "lucide-react";
-
-// components
-import { Card, CardContent } from "@/components/ui/card";
+import { Great_Vibes, Poppins } from "next/font/google";
 
 import { BACKEND_URL } from "@/lib/utils";
 
+const greatVibes = Great_Vibes({ weight: "400" });
+const poppins = Poppins({ weight: "400" });
+
 type Props = {
-  title: string;
-  location: string;
-  date: string;
-  time: string;
-  description: string;
   background_image: string;
-  primary_color: string;
-  secondary_color: string;
+  data_invitation: any;
 };
 
 export default function WeddingInvitation({
-  title,
-  location,
-  date,
-  time,
-  description,
   background_image,
-  primary_color,
-  secondary_color,
+  data_invitation,
 }: Props) {
-  const BackgroundImage = background_image.includes("base64")
-    ? background_image
-    : `${BACKEND_URL}/public/${background_image}`;
-
   return (
     <div
       className="flex min-h-screen flex-col items-center justify-center bg-cover bg-fixed bg-center p-6"
       style={{
-        backgroundImage: `url('${BackgroundImage}')`,
+        backgroundImage: `url('${BACKEND_URL}/public/${background_image}')`,
+        fontFamily: greatVibes.style.fontFamily,
       }}
     >
       {/* Overlay */}
       <div className="absolute inset-0 z-0 bg-black/20" />
+
+      <motion.div
+        initial={{ x: "-20%", y: 0, opacity: 0 }}
+        animate={{ x: "120%", y: -50, opacity: 1 }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          repeatType: "loop",
+          ease: "linear",
+        }}
+        className="pointer-events-none fixed top-20 left-0 z-20"
+      >
+        <Image
+          src="/bird.png"
+          alt="Burung Terbang"
+          width={200}
+          height={200}
+          className="opacity-80"
+        />
+      </motion.div>
+
+      <motion.div
+        initial={{ x: "20%", y: 0, opacity: 0 }}
+        animate={{ x: "-120%", y: -50, opacity: 1 }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          repeatType: "loop",
+          ease: "linear",
+        }}
+        className="pointer-events-none fixed top-20 right-0 z-20"
+      >
+        <Image
+          src="/bird.png"
+          alt="Burung Terbang"
+          width={200}
+          height={200}
+          className="-scale-x-100 opacity-80"
+        />
+      </motion.div>
 
       <motion.div
         initial={{ opacity: 0, y: 50 }}
@@ -50,48 +77,107 @@ export default function WeddingInvitation({
         transition={{ duration: 1 }}
         className="relative z-10 w-full max-w-xl"
       >
-        <Card
-          className="w-full max-w-xl rounded-2xl shadow-2xl"
-          style={{ borderColor: primary_color }}
+        <h1
+          className="mb-4 text-center text-5xl font-bold"
+          style={{ color: data_invitation.theme.primary_color }}
         >
-          <CardContent className="p-8 text-center">
-            <h1
-              className="mb-4 text-4xl font-bold"
-              style={{ color: primary_color }}
-            >
-              Undangan Pernikahan
-            </h1>
-            <p className="mb-5 text-lg" style={{ color: secondary_color }}>
-              {description}
-            </p>
+          {data_invitation.event.title}
+        </h1>
 
-            <div>
-              <div
-                className="flex justify-center gap-3"
-                style={{ color: primary_color }}
-              >
-                <Heart />
-                <h2 className="mb-3 text-2xl font-semibold">{title}</h2>
-                <Heart />
-              </div>
+        <p
+          className="mb-5 text-center text-lg"
+          style={{
+            color: data_invitation.theme.secondary_color,
+            fontFamily: poppins.style.fontFamily,
+          }}
+        >
+          {data_invitation.message}
+        </p>
 
-              <p className="mt-3 font-bold" style={{ color: primary_color }}>
-                Hari / Tanggal:
-              </p>
-              <p style={{ color: secondary_color }}>{date}</p>
-
-              <p className="mt-3 font-bold" style={{ color: primary_color }}>
-                Waktu:
-              </p>
-              <p style={{ color: secondary_color }}>Pukul {time}</p>
-
-              <p className="mt-3 font-bold" style={{ color: primary_color }}>
-                Lokasi:
-              </p>
-              <p style={{ color: secondary_color }}>{location}</p>
+        <section>
+          <div
+            className="flex justify-center gap-5 text-2xl"
+            style={{ color: data_invitation.theme.primary_color }}
+          >
+            <div className="text-center">
+              <h2 className="mb-1 text-2xl font-semibold">
+                {data_invitation.event.groom.full_name}
+              </h2>
+              <p>{data_invitation.event.groom.nickname}</p>
             </div>
-          </CardContent>
-        </Card>
+
+            <motion.div
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <Heart size={50} color={data_invitation.theme.primary_color} />
+            </motion.div>
+
+            <div className="text-center">
+              <h2 className="mb-1 text-2xl font-semibold">
+                {data_invitation.event.bride.full_name}
+              </h2>
+              <p>{data_invitation.event.bride.nickname}</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="text-2xl">
+          <div className="my-3 text-center">
+            <p
+              className="font-bold"
+              style={{ color: data_invitation.theme.primary_color }}
+            >
+              Hari / Tanggal:
+            </p>
+            <p
+              className="text-lg"
+              style={{
+                color: data_invitation.theme.secondary_color,
+                fontFamily: poppins.style.fontFamily,
+              }}
+            >
+              {data_invitation.event.date}
+            </p>
+          </div>
+
+          <div className="mb-3 text-center">
+            <p
+              className="font-bold"
+              style={{ color: data_invitation.theme.primary_color }}
+            >
+              Waktu:
+            </p>
+            <p
+              className="text-lg"
+              style={{
+                color: data_invitation.theme.secondary_color,
+                fontFamily: poppins.style.fontFamily,
+              }}
+            >
+              Pukul {data_invitation.event.time}
+            </p>
+          </div>
+
+          <div className="mb-3 text-center">
+            <p
+              className="font-bold"
+              style={{ color: data_invitation.theme.primary_color }}
+            >
+              Lokasi:
+            </p>
+            <p
+              className="text-lg"
+              style={{
+                color: data_invitation.theme.secondary_color,
+                fontFamily: poppins.style.fontFamily,
+              }}
+            >
+              {data_invitation.event.venue.name} |{" "}
+              {data_invitation.event.venue.address}
+            </p>
+          </div>
+        </section>
       </motion.div>
     </div>
   );

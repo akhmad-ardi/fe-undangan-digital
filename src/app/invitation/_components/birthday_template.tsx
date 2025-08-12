@@ -2,114 +2,139 @@
 
 import React from "react";
 import { motion } from "motion/react";
+import { Pacifico, Open_Sans } from "next/font/google";
 
-// components
-import { Card, CardContent } from "@/components/ui/card";
-
+import RainingConfetti from "@/components/raining-confetti";
 import { BACKEND_URL } from "@/lib/utils";
 
+const pacifico = Pacifico({ weight: "400" });
+const openSans = Open_Sans({ weight: "400" });
+
 type Props = {
-  title: string;
-  location: string;
-  date: string;
-  time: string;
-  description: string;
   background_image: string;
-  primary_color: string;
-  secondary_color: string;
+  data_invitation: any;
 };
 
 export default function BirthdayInvitation({
-  title,
-  location,
-  date,
-  time,
-  description,
   background_image,
-  primary_color,
-  secondary_color,
+  data_invitation,
 }: Props) {
-  const BackgroundImage = background_image.includes("base64")
-    ? background_image
-    : `${BACKEND_URL}/public/${background_image}`;
-
   return (
     <div
       className="relative flex min-h-screen flex-col items-center justify-center bg-cover bg-fixed bg-center p-6"
       style={{
-        backgroundImage: `url('${BackgroundImage}')`,
+        backgroundImage: `url('${BACKEND_URL}/public/${background_image}')`,
+        fontFamily: pacifico.style.fontFamily,
       }}
     >
       {/* Overlay */}
-      <div className="absolute inset-0 z-0 bg-blue-800/40" />
+      <div className="absolute inset-0 z-0 bg-pink-400/40" />
 
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1 }}
-        className="relative z-10 w-full max-w-lg"
+        className="relative z-10 w-full max-w-lg text-center"
       >
-        <Card
-          className="rounded-2xl bg-white/80 shadow-lg backdrop-blur"
-          style={{ borderColor: primary_color }}
+        {/* Balon dan confetti */}
+        <motion.div
+          className="mb-4 text-4xl"
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
         >
-          <CardContent className="p-8 text-center">
-            <motion.h1
-              className="mb-4 text-4xl font-bold"
-              style={{ color: primary_color }}
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3 }}
+          🎈🎉🎂
+        </motion.div>
+
+        {/* Judul */}
+        <motion.h1
+          className="mb-2 text-5xl font-bold"
+          style={{
+            background: `linear-gradient(90deg, ${data_invitation.theme.primary_color}, ${data_invitation.theme.secondary_color})`,
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          {data_invitation.event.title}
+        </motion.h1>
+        <RainingConfetti />
+
+        {/* Host name */}
+        <motion.h2
+          className="mb-4 text-3xl"
+          style={{ color: data_invitation.theme.primary_color }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          Mengundangmu ke pesta {data_invitation.event.host_name} 🎁
+        </motion.h2>
+
+        {/* Pesan */}
+        <motion.p
+          className="mb-6 text-lg"
+          style={{
+            color: data_invitation.theme.secondary_color,
+            fontFamily: openSans.style.fontFamily,
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+        >
+          {data_invitation.message}
+        </motion.p>
+
+        {/* Info Acara */}
+        <motion.div
+          className="grid gap-4 rounded-xl bg-white/70 p-5 shadow-lg backdrop-blur-sm"
+          style={{ fontFamily: openSans.style.fontFamily }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9 }}
+        >
+          <div>
+            <p
+              className="font-bold"
+              style={{ color: data_invitation.theme.primary_color }}
             >
-              Undangan Ulang Tahun
-            </motion.h1>
-
-            <motion.p
-              className="mb-6 text-lg"
-              style={{ color: secondary_color }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
+              Acara
+            </p>
+            <p>{data_invitation.event.occasion}</p>
+          </div>
+          <div>
+            <p
+              className="font-bold"
+              style={{ color: data_invitation.theme.primary_color }}
             >
-              {description}
-            </motion.p>
-
-            <motion.div
-              className="mb-5"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9 }}
+              Hari / Tanggal
+            </p>
+            <p>{data_invitation.event.date}</p>
+          </div>
+          <div>
+            <p
+              className="font-bold"
+              style={{ color: data_invitation.theme.primary_color }}
             >
-              <h2
-                className="mb-3 text-2xl font-semibold"
-                style={{ color: primary_color }}
-              >
-                {title}
-              </h2>
-
-              <p className="font-semibold" style={{ color: primary_color }}>
-                Hari / Tanggal:
-              </p>
-              <p className="mb-2" style={{ color: secondary_color }}>
-                {date}
-              </p>
-
-              <p className="font-semibold" style={{ color: primary_color }}>
-                Waktu
-              </p>
-              <p className="mb-2" style={{ color: secondary_color }}>
-                Pukul {time}
-              </p>
-
-              <p className="font-semibold" style={{ color: primary_color }}>
-                Lokasi
-              </p>
-              <p className="mb-2" style={{ color: secondary_color }}>
-                {location}
-              </p>
-            </motion.div>
-          </CardContent>
-        </Card>
+              Waktu
+            </p>
+            <p>Pukul {data_invitation.event.time}</p>
+          </div>
+          <div>
+            <p
+              className="font-bold"
+              style={{ color: data_invitation.theme.primary_color }}
+            >
+              Lokasi
+            </p>
+            <p>
+              {data_invitation.event.location.venue} |{" "}
+              {data_invitation.event.location.address}
+            </p>
+          </div>
+        </motion.div>
       </motion.div>
     </div>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { CheckIcon, CircleAlert } from "lucide-react";
+import { AlertCircle, CheckIcon, CircleAlert } from "lucide-react";
 import { toast } from "sonner";
 
 // components
@@ -42,7 +42,13 @@ export default function FormRegister() {
       toast(data.message, {
         position: "top-center",
         icon: <CheckIcon />,
-        className: "bg-green-100",
+      });
+    }
+
+    if (data.message_error) {
+      toast(data.message_error, {
+        icon: <AlertCircle />,
+        position: "top-center",
       });
     }
 

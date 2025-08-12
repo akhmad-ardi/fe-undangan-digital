@@ -69,3 +69,17 @@ export interface GetInvitationInterface {
 }
 
 export const BACKEND_URL = process.env.BACKEND || "http://localhost:3001";
+
+export function parseDate(date: string) {
+  const dateObj = new Date(date);
+
+  if (isNaN(dateObj.getTime())) return "";
+
+  const year = dateObj.getFullYear();
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const day = String(dateObj.getDate()).padStart(2, "0");
+
+  const weekday = dateObj.toLocaleDateString("id-ID", { weekday: "long" });
+
+  return `${weekday}, ${day}-${month}-${year}`;
+}
