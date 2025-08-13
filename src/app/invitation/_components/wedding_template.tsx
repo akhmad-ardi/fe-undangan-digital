@@ -8,8 +8,8 @@ import { Great_Vibes, Poppins } from "next/font/google";
 
 import { BACKEND_URL } from "@/lib/utils";
 
-const greatVibes = Great_Vibes({ weight: "400" });
-const poppins = Poppins({ weight: "400" });
+const greatVibes = Great_Vibes({ weight: "400", subsets: ["cyrillic"] });
+const poppins = Poppins({ weight: "400", subsets: ["latin"] });
 
 type Props = {
   background_image: string;

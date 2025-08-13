@@ -7,8 +7,8 @@ import { Pacifico, Open_Sans } from "next/font/google";
 import RainingConfetti from "@/components/raining-confetti";
 import { BACKEND_URL } from "@/lib/utils";
 
-const pacifico = Pacifico({ weight: "400" });
-const openSans = Open_Sans({ weight: "400" });
+const pacifico = Pacifico({ weight: "400", subsets: ["cyrillic"] });
+const openSans = Open_Sans({ weight: "400", subsets: ["cyrillic"] });
 
 type Props = {
   background_image: string;
