@@ -50,6 +50,8 @@ FE-UNDANGAN-DIGITAL/ <br>
 ├── vitest.config.ts <br>
 └── README.md <br>
 
+----
+
 ## ⚙️ Instalasi & Menjalankan
 
 1. **Clone repositori**
@@ -79,6 +81,8 @@ BACKEND=
 ```bash
 pnpm dev
 ```
+
+---
 
 ## 📜 Lisensi
 
